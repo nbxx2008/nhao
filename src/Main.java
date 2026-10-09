@@ -12,7 +12,8 @@ public class Main {
             2. 查看全部图书
             3. 按书名搜索图书
             4. 借阅 / 归还图书
-            5. 退出
+            5. 删除图书
+            6. 退出
             请输入编号：""";
 
     public static void main(String[] args) {
@@ -37,7 +38,8 @@ public class Main {
                 case 2 -> listFlow(library);
                 case 3 -> searchFlow(scanner, library);
                 case 4 -> borrowReturnFlow(scanner, library);
-                case 5 -> {
+                case 5 -> deleteFlow(scanner, library);
+                case 6 -> {
                     System.out.println("感谢使用，再见！");
                     running = false;
                 }
@@ -110,6 +112,19 @@ public class Main {
         System.out.println(book.isBorrowed() ? library.returnBook(id) : library.borrow(id));
     }
 
+    private static void deleteFlow(Scanner scanner, Library library) {
+        System.out.print("请输入图书编号：");
+        String idText = scanner.nextLine().trim();
+        int id;
+        try {
+            id = Integer.parseInt(idText);
+        } catch (NumberFormatException e) {
+            System.out.println("输入有误，请重新输入");
+            return;
+        }
+       String result = library.deleteBook(id);
+       System.out.println(result);
+    }
     private static String format(Book book) {
         return String.format("编号:%d  书名:%s  作者:%s  价格:%s  状态:%s",
                 book.getId(), book.getName(), book.getAuthor(), book.getPrice(),

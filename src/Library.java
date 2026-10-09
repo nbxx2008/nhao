@@ -47,10 +47,11 @@ public class Library {
      */
     public List<Book> search(String keyword) {
         List<Book> result = new ArrayList<>();
+        if (keyword == null || keyword.trim().isEmpty()) return result;
         for (Book book : books) {
             // BUG(考核): 这里用了 equals 全等匹配，只有书名与关键字完全相同时才会命中。
             // 题目要求"书名包含关键字"，应使用 contains。需求见《01-题目文档.md》任务一。
-            if (book.getName().equals(keyword)) {
+            if (book.getName().contains(keyword)) {
                 result.add(book);
             }
         }
@@ -92,4 +93,22 @@ public class Library {
         book.setBorrowed(false);
         return "归还成功";
     }
+    /**
+     * 根据编号删除图书
+     */
+    public String deleteBook(int id) {
+        // 题目要求：“ArrayList 移除、Iterator 均可，必须真实物理删除”
+        // 不能只打标记过滤！必须真的把对象从集合里移除。
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).getId() == id) {
+                books.remove(i); // 真正从列表中移除
+                return "删除成功";
+            }
+        }
+        // 编号不存在（包含 0、负数等情况）
+        return "图书编号不存在";
+    }
+
+
+
 }
